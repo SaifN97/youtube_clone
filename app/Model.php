@@ -1,0 +1,21 @@
+<?php
+
+namespace Laratube;
+
+use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Model as BaseModel;
+
+class Model extends BaseModel
+{
+
+    public $incrementing = false;
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($modlel) {
+            $modlel->{$modlel->getKeyName()} = (string) Str::uuid();
+        });
+    }
+}
