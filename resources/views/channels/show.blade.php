@@ -44,6 +44,7 @@
                                             </g>
                                         </svg>
                                     </div>
+                                    <img src="{{ $channel->image() }}" alt="">
                                 </div>
                             </div>
 
