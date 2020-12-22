@@ -17,8 +17,8 @@ class User extends Authenticatable
     {
         parent::boot();
 
-        static::created(function ($modlel) {
-            $modlel->{$modlel->getKeyName()} = (string) Str::uuid();
+        static::creating(function ($model) {
+            $model->{$model->getKeyName()} = (string) Str::uuid();
         });
     }
 
