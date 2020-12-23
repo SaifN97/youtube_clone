@@ -68,7 +68,7 @@
                                     @endauth
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
-                                                                                     document.getElementById('logout-form').submit();">
+                                                                                                                                     document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
@@ -89,18 +89,15 @@
         </main>
     </div>
 
-    <script>
-        window.AuthUser = '{!!  auth()->user() !!}'
-
-        window.__auth = function() {
+    <script>    
+        window.AuthUser = '{!! auth()->user() !!}'
+        window.__auth = function () {
             try {
-                return JSON.parse(AuthUser);
+                return JSON.parse(AuthUser)
             } catch (error) {
-                return null;
+                return null
             }
-
-        }
-
+        } 
     </script>
 </body>
 

@@ -32191,6 +32191,13 @@ if (token) {
 
 Vue.component('subscribe-button', {
   props: {
+    channel: {
+      type: Object,
+      required: true,
+      "default": function _default() {
+        return {};
+      }
+    },
     subscriptions: {
       type: Array,
       required: true,
@@ -32199,9 +32206,23 @@ Vue.component('subscribe-button', {
       }
     }
   },
+  computed: {
+    subscribed: function subscribed() {
+      if (!__auth() || this.channel.user_id === __auth().id) return false;
+      return !!this.subscriptions.find(function (subscription) {
+        return subscription.user_id === __auth().id;
+      });
+    },
+    owner: function owner() {
+      if (__auth() && this.channel.user_id === __auth().id) return true;
+      return false;
+    }
+  },
   methods: {
     toggleSubscription: function toggleSubscription() {
-      if (!__auth()) {
+      console.log(AuthUser);
+
+      if (!__auth()()) {
         alert('Please login to subscribe');
       }
     }
