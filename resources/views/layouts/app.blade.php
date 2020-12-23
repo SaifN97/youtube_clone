@@ -66,8 +66,9 @@
                                             My Channel
                                         </a>
                                     @endauth
-                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                                     document.getElementById('logout-form').submit();">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
+                                                                                     document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
@@ -87,6 +88,20 @@
             @yield('content')
         </main>
     </div>
+
+    <script>
+        window.AuthUser = '{!!  auth()->user() !!}'
+
+        window.__auth = function() {
+            try {
+                return JSON.parse(AuthUser);
+            } catch (error) {
+                return null;
+            }
+
+        }
+
+    </script>
 </body>
 
 </html>
