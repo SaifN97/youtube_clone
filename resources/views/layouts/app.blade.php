@@ -90,7 +90,7 @@
     </div>
 
     <script>    
-        window.AuthUser = '{!! auth()->user() !!}'
+        window.AuthUser = `{!! auth()->user() !!}`
         window.__auth = function () {
             try {
                 return JSON.parse(AuthUser)

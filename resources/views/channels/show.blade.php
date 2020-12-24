@@ -65,7 +65,7 @@
                                     <button @click="toggleSubscription" class="btn btn-danger">
                                         
                                         @{{ owner ? '' : subscribed ? 'Unsubscribe' : 'Subscribe' }}
-                                        @{{ subscriptions . length }} @{{ owner ? 'Subscribers' : '' }}
+                                        @{{ count }} @{{ owner ? 'Subscribers' : '' }}
                                        
                                     </button>
                                 </subscribe-button>
