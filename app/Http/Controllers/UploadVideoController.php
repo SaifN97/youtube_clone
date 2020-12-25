@@ -11,4 +11,12 @@ class UploadVideoController extends Controller
     {
         return view('channels.upload', compact('channel'));
     }
+
+    public function store(Channel $channel)
+    {
+        return $channel->videos()->create([
+            'title' => request()->title,
+            'path' => request()->video->store("channels/{$channel->id}")
+        ]);
+    }
 }
