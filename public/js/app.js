@@ -33228,7 +33228,8 @@ Vue.component('channel-uploads', {
   data: function data() {
     return {
       selected: false,
-      videos: []
+      videos: [],
+      progress: {}
     };
   },
   methods: {
@@ -33241,7 +33242,13 @@ Vue.component('channel-uploads', {
         var form = new FormData();
         form.append('video', video);
         form.append('title', video.name);
-        return axios.post("/channels/".concat(_this.channel.id, "/videos"), form);
+        return axios.post("/channels/".concat(_this.channel.id, "/videos"), form, {
+          onUploadProgress: function onUploadProgress(event) {
+            _this.progress[video.name] = Math.ceil(event.loaded / event.total * 100);
+
+            _this.$forceUpdate();
+          }
+        });
       });
     }
   }
