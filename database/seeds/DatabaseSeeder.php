@@ -44,11 +44,11 @@ class DatabaseSeeder extends Seeder
 
 
         //Test subs
-        factory(Subscription::class, 500)->create([
+        factory(Subscription::class, 100)->create([
             'channel_id' => $channel1->id
         ]);
 
-        factory(Subscription::class, 500)->create([
+        factory(Subscription::class, 100)->create([
             'channel_id' => $channel2->id
         ]);
     }
