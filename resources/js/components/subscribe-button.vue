@@ -1,6 +1,16 @@
-import numeral from 'numeral';
-Vue.component('subscribe-button', {
+<template>
+<button @click="toggleSubscription" class="btn btn-danger">
 
+    {{ owner ? '' : subscribed ? 'Unsubscribe' : 'Subscribe' }}
+    {{ count }} {{ owner ? 'Subscribers' : '' }}
+
+</button>
+</template>
+
+<script>
+import numeral from 'numeral';
+
+export default {
     props: {
         channel: {
             type: Object,
@@ -17,7 +27,7 @@ Vue.component('subscribe-button', {
 
     data: function () {
         return {
-            subscriptions : this.initialSubscriptions
+            subscriptions: this.initialSubscriptions
         }
     },
 
@@ -38,8 +48,8 @@ Vue.component('subscribe-button', {
             if (!__auth()) return null;
 
             return this.subscriptions.find(subscription => subscription.user_id === __auth().id)
-    
-},
+
+        },
 
         count() {
             return numeral(this.subscriptions.length).format('0a');
@@ -49,7 +59,7 @@ Vue.component('subscribe-button', {
     methods: {
         toggleSubscription() {
             if (!__auth()) {
-               return alert('Please login to subscribe');
+                return alert('Please login to subscribe');
             }
 
             if (this.owner) {
@@ -59,18 +69,18 @@ Vue.component('subscribe-button', {
             if (this.subscribed) {
                 axios.delete(`/channels/${this.channel.id}/subscriptions/${this.subscription.id}`)
                     .then(() => {
-                    this.subscriptions = this.subscriptions.filter(s=> s.id !== this.subscription.id)
-                })
+                        this.subscriptions = this.subscriptions.filter(s => s.id !== this.subscription.id)
+                    })
             } else {
                 axios.post(`/channels/${this.channel.id}/subscriptions`)
                     .then(response => {
                         this.subscriptions = [
                             ...this.subscriptions,
                             response.data
-                    ]
-                })
+                        ]
+                    })
             }
         }
     }
-
-});
+}
+</script>
