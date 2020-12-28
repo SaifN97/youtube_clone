@@ -20,7 +20,7 @@
         </g>
     </svg>
 
-        {{ upvotes_count }}
+    {{ upvotes_count }}
 
     <svg @click="vote('down')" class="thumbs-down" :class="{'thumbs-down-active' : downvoted}" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="475.092px" height="475.092px" viewBox="0 0 475.092 475.092" style="enable-background:new 0 0 475.092 475.092;" xml:space="preserve">
         <g>
@@ -60,66 +60,92 @@
 import numeral from 'numeral'
 
 export default {
-props:{
-    default_votes: {
-        required: true,
-        default: () => []
-    },
+    props: {
+        default_votes: {
+            required: true,
+            default: () => []
+        },
 
-    entity_owner: {
-        required: true,
-        default: () => ({})
-    }
-},
+        entity_owner: {
+            required: true,
+            default: ''
+        },
 
-data() {
-    return {
-        votes: this.default_votes
-    }
-},
-
-computed: {
-    upvotes(){
-        return this.votes.filter(v=> v.type === 'up')
-    },
-    
-    downvotes(){
-        return this.votes.filter(v=> v.type === 'up')
-    },
-
-    upvotes_count(){
-        return numeral(this.upvotes.length).format('0a')
-    },
-
-    downvotes_count(){
-        return numeral(this.downvotes.length).format('0a')
-    },
-
-    upvoted(){
-        if(! __auth()) return false
-
-        return !!this.upvotes.find(v => v.user_id === __auth().id)
-    },
-
-    downvoted(){
-        if(! __auth()) return false
-
-        return !!this.downvotes.find(v => v.user_id === __auth().id)
-    },
-},
-
-methods: {
-    vote(type) {
-        if(__auth() && __auth().id === this.entity_owner) {
-            return alert('You cannot vote your own content')
+        entity_id: {
+            required: true,
+            default: ''
         }
+    },
 
-        if(type = 'up' && this.upvoted) return
+    data() {
+        return {
+            votes: this.default_votes
+        }
+    },
 
-        if(type = 'down' && this.downvoted) return
+    computed: {
+        upvotes() {
+            return this.votes.filter(v => v.type === 'up')
+        },
+
+        downvotes() {
+            return this.votes.filter(v => v.type === 'down')
+        },
+
+        upvotes_count() {
+            return numeral(this.upvotes.length).format('0a')
+        },
+
+        downvotes_count() {
+            return numeral(this.downvotes.length).format('0a')
+        },
+
+        upvoted() {
+            if (!__auth()) return false
+
+            return !!this.upvotes.find(v => v.user_id === __auth().id)
+        },
+
+        downvoted() {
+            if (!__auth()) return false
+
+            return !!this.downvotes.find(v => v.user_id === __auth().id)
+        },
+    },
+
+    methods: {
+        vote(type) {
+            if (!__auth()) {
+                return alert('Please Login to vote')
+            }
+
+            if (__auth().id === this.entity_owner) {
+                return alert('You cannot vote your own content')
+            }
+
+            if (type === 'up' && this.upvoted) return
+
+            if (type === 'down' && this.downvoted) return
+
+            axios.post(`/votes/${this.entity_id}/${type}`)
+                .then(({ data }) => {
+                    if (this.upvoted || this.downvoted) {
+                        this.votes = this.votes.map(v => {
+                            if (v.user_id === __auth().id) {
+                                return data
+                            }
+
+                            return v
+                        })
+                    } else {
+                        this.votes = [
+                            ...this.votes,
+                            data
+                        ]
+                    }
+                })
+        }
     }
-}
-
 }
 </script>
 

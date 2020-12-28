@@ -7,7 +7,7 @@
                 <div class="card">
 
                     @if ($video->editable())
-                        <form action="{{ route('video.update', $video->id) }}" method="POST">
+                        <form action="{{ route('videos.update', $video->id) }}" method="POST">
                             @csrf
                             @method('PUT')
                     @endif
@@ -33,7 +33,8 @@
                                 {{ $video->views }} {{ str_plural('view', $video->views) }}
                             </div>
 
-                            <votes :default_votes="{{ $video->votes }}" entity_owner="{{ $video->channel->user_id }}">
+                            <votes :default_votes="{{ $video->votes }}" entity_id="{{ $video->id }}"
+                                entity_owner="{{ $video->channel->user_id }}">
                             </votes>
 
                         </div>
