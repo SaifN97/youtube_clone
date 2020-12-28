@@ -13,9 +13,11 @@
         <div class="media-body">
             <h6 class="mt-0">{{ comment.user.name }}</h6>
             <small>{{ comment.body }}</small>
+            <votes :default_votes="comment.votes" :entity_id="comment.id" :entity_owner="comment.user.id"></votes>
 
             <replies :comment="comment"></replies>
         </div>
+
     </div>
 
     <div class="text-center">
@@ -28,11 +30,13 @@
 <script>
 import Avatar from 'vue-avatar'
 import Replies from './replies.vue'
+import Votes from './votes.vue'
 export default {
     props: ['video'],
     components: {
         Avatar,
-        Replies
+        Replies,
+        Votes
     },
     mounted() {
         this.fetchComments()

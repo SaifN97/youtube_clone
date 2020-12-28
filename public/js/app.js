@@ -1700,6 +1700,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_avatar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-avatar */ "./node_modules/vue-avatar/dist/vue-avatar.min.js");
 /* harmony import */ var vue_avatar__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_avatar__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _replies_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./replies.vue */ "./resources/js/components/replies.vue");
+/* harmony import */ var _votes_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./votes.vue */ "./resources/js/components/votes.vue");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -1745,13 +1746,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['video'],
   components: {
     Avatar: vue_avatar__WEBPACK_IMPORTED_MODULE_0___default.a,
-    Replies: _replies_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    Replies: _replies_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    Votes: _votes_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   mounted: function mounted() {
     this.fetchComments();
@@ -1809,6 +1814,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -21645,6 +21651,14 @@ var render = function() {
                 _vm._v(" "),
                 _c("small", [_vm._v(_vm._s(comment.body))]),
                 _vm._v(" "),
+                _c("votes", {
+                  attrs: {
+                    default_votes: comment.votes,
+                    entity_id: comment.id,
+                    entity_owner: comment.user.id
+                  }
+                }),
+                _vm._v(" "),
                 _c("replies", { attrs: { comment: comment } })
               ],
               1
@@ -21714,7 +21728,7 @@ var render = function() {
       _vm._m(0),
       _vm._v(" "),
       _vm._l(_vm.replies.data, function(reply) {
-        return _c("div", { staticClass: "media mt-3" }, [
+        return _c("div", { staticClass: "media my-3" }, [
           _c(
             "a",
             { staticClass: "mr-3", attrs: { href: "#" } },
@@ -21727,13 +21741,26 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c("div", { staticClass: "media-body" }, [
-            _c("h6", { staticClass: "mt-0" }, [
-              _vm._v(_vm._s(reply.user.name))
-            ]),
-            _vm._v(" "),
-            _c("small", [_vm._v(_vm._s(reply.body))])
-          ])
+          _c(
+            "div",
+            { staticClass: "media-body" },
+            [
+              _c("h6", { staticClass: "mt-0" }, [
+                _vm._v(_vm._s(reply.user.name))
+              ]),
+              _vm._v(" "),
+              _c("small", [_vm._v(_vm._s(reply.body))]),
+              _vm._v(" "),
+              _c("votes", {
+                attrs: {
+                  default_votes: reply.votes,
+                  entity_id: reply.id,
+                  entity_owner: reply.user.id
+                }
+              })
+            ],
+            1
+          )
         ])
       }),
       _vm._v(" "),

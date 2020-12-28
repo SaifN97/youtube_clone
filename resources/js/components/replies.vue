@@ -7,7 +7,7 @@
         </button>
     </div>
     
-    <div class="media mt-3" v-for="reply in replies.data">
+    <div class="media my-3" v-for="reply in replies.data">
         <a class="mr-3" href="#">
             <avatar :username="reply.user.name" class="mr-3" :size="30"></avatar>
         </a>
@@ -15,6 +15,7 @@
             <h6 class="mt-0">{{ reply.user.name }}</h6>
             <small>{{ reply.body }}</small>
 
+            <votes :default_votes="reply.votes" :entity_id="reply.id" :entity_owner="reply.user.id"></votes>
         </div>
     </div>
     <div v-if="comment.repliesCount > 0" class="text-center">
